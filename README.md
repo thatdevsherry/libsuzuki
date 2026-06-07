@@ -1,12 +1,12 @@
-# libskline
+# libsuzuki
 
 A minimal C library to build and parse Suzuki Serial Data Line (SDL) protocol messages.
 
 It consists of the following header files:
 
-- `libskline/lib.h`: SDL protocol message.
-- `libskline/calc.h`: Calculations for SDL values into processed values.
-- `libskline/vehicles/*.h`: Car/ECU specific data like OBD Address maps.
+- `libsuzuki/lib.h`: SDL protocol message.
+- `libsuzuki/calc.h`: Calculations for SDL values into processed values.
+- `libsuzuki/vehicles/*.h`: Car/ECU specific data like OBD Address maps.
 
 ## Building
 

@@ -16,10 +16,18 @@
 #define SDL_MESSAGE_DATA_LEN_MAX 252
 #define SDL_MESSAGE_DATA_ACTUATE_LEN 8
 
-enum SdlMessageStatusCode {
-  SDL_MESSAGE_OK = 0,
-  SDL_MESSAGE_ERR_LEN_BELOW_MIN = -1,
-  SDL_MESSAGE_ERR_INVALID_CHECKSUM = -2,
+/*
+ * Suzuki Serial Data Line (SDL) message format.
+ *
+ * It is an in-memory representation. See `sdl_message_serialize` for converting
+ * to wire-format.
+ */
+struct SdlMessage {
+  uint8_t header;    /* module + type nibble. */
+  uint8_t length;    /* total length of message, from header to checksum. */
+  uint8_t data[252]; /* Data fields, can never exceed 252 as length byte is
+                        8-bit. */
+  uint8_t checksum;  /* two's compliment checksum. */
 };
 
 /*
@@ -28,6 +36,12 @@ enum SdlMessageStatusCode {
 struct SdlObdAddress {
   uint8_t map[SDL_MESSAGE_DATA_LEN_MAX];
   uint8_t len;
+};
+
+enum SdlMessageStatusCode {
+  SDL_MESSAGE_OK = 0,
+  SDL_MESSAGE_ERR_LEN_BELOW_MIN = -1,
+  SDL_MESSAGE_ERR_INVALID_CHECKSUM = -2,
 };
 
 /*
@@ -49,25 +63,6 @@ enum SdlHeaderType {
 };
 
 /*
- * Suzuki Serial Data Line (SDL) message format.
- *
- * It is an in-memory representation. See `sdl_message_serialize` for converting
- * to wire-format.
- */
-struct SdlMessage {
-  uint8_t header;    /* module + type nibble. */
-  uint8_t length;    /* total length of message, from header to checksum. */
-  uint8_t data[252]; /* Data fields, can never exceed 252 as length byte is
-                        8-bit. */
-  uint8_t checksum;  /* two's compliment checksum. */
-};
-
-/*
- * Validate message using checksum.
- */
-enum SdlMessageStatusCode sdl_message_is_valid(const struct SdlMessage *msg);
-
-/*
  * Create sdl message of type data request for provided obd addresses.
  */
 struct SdlMessage
@@ -85,6 +80,7 @@ struct SdlMessage sdl_message_id_request_create(enum SdlHeaderModule module);
 struct SdlMessage
 sdl_message_actuation_request_create(enum SdlHeaderModule module,
                                      const uint8_t *data);
+
 /*
  * Create sdl message of type 'dtc clear" for provided module.
  */
@@ -124,6 +120,11 @@ uint8_t sdl_message_checksum_generate(const uint8_t *buf, uint8_t len);
  * Create checksum of a sdl message and add it to the sdl message as well.
  */
 void sdl_message_checksum_update(struct SdlMessage *msg);
+
+/*
+ * Validate message using checksum.
+ */
+enum SdlMessageStatusCode sdl_message_is_valid(const struct SdlMessage *msg);
 
 /*
  * Calculate temperature (in celsius) from raw value.

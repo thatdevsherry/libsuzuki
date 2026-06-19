@@ -4,8 +4,8 @@
  */
 
 #include "test_lib.h"
-#include "suzuki_sdl/lib.h"
-#include "suzuki_sdl/vehicles/baleno.h"
+#include "suzuki_sdl/suzuki_sdl.h"
+#include "suzuki_sdl/vehicles.h"
 #include "unity.h"
 #include <string.h>
 
@@ -55,12 +55,13 @@ void test_serialize_obd_query_command() {
 
 void test_sdl_message_data_request_create_single() {
   enum SdlHeaderModule module = SDL_HEADER_MODULE_ECU;
-  uint8_t map[] = {SDL_VehicleSpeedSensor};
+  uint8_t map[] = {SDL_OBD_ADDRESS_BALENO_33920_65GP_VEHICLE_SPEED_SENSOR};
   uint8_t len = 1;
   struct SdlObdAddress obd_addr = {.len = len};
   memcpy(obd_addr.map, map, len);
   struct SdlMessage msg = sdl_message_data_request_create(module, &obd_addr);
-  uint8_t expected_data[] = {SDL_VehicleSpeedSensor};
+  uint8_t expected_data[] = {
+      SDL_OBD_ADDRESS_BALENO_33920_65GP_VEHICLE_SPEED_SENSOR};
   TEST_ASSERT_EQUAL_HEX8(0x13, msg.header);
   TEST_ASSERT_EQUAL_HEX8(0x04, msg.length);
   TEST_ASSERT_EQUAL_HEX8_ARRAY(expected_data, msg.data, 1);
@@ -73,17 +74,17 @@ void test_sdl_message_data_request_create_exceed_len() {
   uint8_t len = 252;
   uint8_t map[len];
   for (int i = 0; i < len; i++) {
-    map[i] = SDL_VehicleSpeedSensor;
+    map[i] = SDL_OBD_ADDRESS_BALENO_33920_65GP_VEHICLE_SPEED_SENSOR;
   }
-  map[251] = SDL_RadiatorFan;
+  map[251] = SDL_OBD_ADDRESS_BALENO_33920_65GP_RADIATOR_FAN;
   struct SdlObdAddress obd_addr = {.len = len};
   memcpy(obd_addr.map, map, len);
   struct SdlMessage msg = sdl_message_data_request_create(module, &obd_addr);
   uint8_t expected_data[252];
   for (int i = 0; i < len; i++) {
-    expected_data[i] = SDL_VehicleSpeedSensor;
+    expected_data[i] = SDL_OBD_ADDRESS_BALENO_33920_65GP_VEHICLE_SPEED_SENSOR;
   }
-  expected_data[251] = SDL_RadiatorFan;
+  expected_data[251] = SDL_OBD_ADDRESS_BALENO_33920_65GP_RADIATOR_FAN;
   TEST_ASSERT_EQUAL_HEX8(0x13, msg.header);
   TEST_ASSERT_EQUAL_HEX8(0xFF, msg.length);
   TEST_ASSERT_EQUAL_HEX8_ARRAY(expected_data, msg.data, 252);

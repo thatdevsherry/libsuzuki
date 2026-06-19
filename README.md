@@ -1,12 +1,11 @@
-# libsuzuki
+# suzuki_sdl
 
 A minimal C library to build and parse Suzuki Serial Data Line (SDL) protocol messages.
 
-It consists of the following header files:
+It consists of one header file:
 
-- `libsuzuki/lib.h`: SDL protocol message.
-- `libsuzuki/calc.h`: Calculations for SDL values into processed values.
-- `libsuzuki/vehicles/*.h`: Car/ECU specific data like OBD Address maps.
+- `suzuki_sdl/suzuki_sdl.h`: SDL message + calculations.
+- `suzuki_sdl/vehicles.h`: Car/ECU specific data like OBD Address maps.
 
 ## Building
 

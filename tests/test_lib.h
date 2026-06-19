@@ -3,7 +3,7 @@
  * Copyright (C) 2026 Shehriyar Qureshi (thatdevsherry)
  */
 
-#include "suzuki_sdl/lib.h"
+#include "suzuki_sdl/suzuki_sdl.h"
 
 struct SdlMessage sdl_message_get_command = {
     .header = 0x10, .length = 0x03, .data = {0}, .checksum = 0xED};

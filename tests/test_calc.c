@@ -3,7 +3,7 @@
  * Copyright (C) 2026 Shehriyar Qureshi (thatdevsherry)
  */
 
-#include "suzuki_sdl/calc.h"
+#include "suzuki_sdl/suzuki_sdl.h"
 #include "unity.h"
 
 void setUp() {}

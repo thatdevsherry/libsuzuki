@@ -41,8 +41,8 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-add_library(${PROJECT_NAME}_static STATIC src/lib.c src/calc.c)
-add_library(${PROJECT_NAME}_shared SHARED src/lib.c src/calc.c)
+add_library(${PROJECT_NAME}_static STATIC src/suzuki_sdl.c)
+add_library(${PROJECT_NAME}_shared SHARED src/suzuki_sdl.c)
 set_target_properties(
     ${PROJECT_NAME}_static
     PROPERTIES OUTPUT_NAME ${PROJECT_NAME}

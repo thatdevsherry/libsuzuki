@@ -2,6 +2,8 @@
  * SPDX-License-Identifier: GPL-3.0-only
  * Copyright (C) 2026 Shehriyar Qureshi (thatdevsherry)
  */
+#ifndef SUZUKI_SDL_VEHICLES
+#define SUZUKI_SDL_VEHICLES
 
 /*
  * OBD Address map for Baleno 1.3L G13BB with ECU 33920-65GP.
@@ -31,3 +33,5 @@ enum Baleno33920_65GP {
   SDL_OBD_ADDRESS_BALENO_33920_65GP_FAULT_CODES_5 = 0X20,
   SDL_OBD_ADDRESS_BALENO_33920_65GP_FAULT_CODES_6 = 0X21,
 };
+
+#endif

@@ -41,20 +41,11 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-add_library(${PROJECT_NAME}_static STATIC src/suzuki_sdl.c)
-add_library(${PROJECT_NAME}_shared SHARED src/suzuki_sdl.c)
-set_target_properties(
-    ${PROJECT_NAME}_static
-    PROPERTIES OUTPUT_NAME ${PROJECT_NAME}
-)
-set_target_properties(
-    ${PROJECT_NAME}_shared
-    PROPERTIES OUTPUT_NAME ${PROJECT_NAME}
-)
-foreach(target ${PROJECT_NAME}_static ${PROJECT_NAME}_shared)
-    target_include_directories(${target} PUBLIC include PRIVATE src)
-    target_compile_options(${target} PRIVATE ${PROJECT_COMPILE_OPTIONS})
-endforeach()
+option(BUILD_SHARED_LIBS "Build shared library file" OFF)
+
+add_library(${PROJECT_NAME} src/suzuki_sdl.c)
+target_include_directories(${PROJECT_NAME} PUBLIC include PRIVATE src)
+target_compile_options(${PROJECT_NAME} PRIVATE ${PROJECT_COMPILE_OPTIONS})
 
 if(BUILD_TESTING)
     enable_testing()
@@ -69,8 +60,8 @@ if(BUILD_TESTING)
     FetchContent_MakeAvailable(unity)
     add_executable(test_lib tests/test_lib.c)
     add_executable(test_calc tests/test_calc.c)
-    target_link_libraries(test_lib PRIVATE ${PROJECT_NAME}_static unity m)
-    target_link_libraries(test_calc PRIVATE ${PROJECT_NAME}_static unity m)
+    target_link_libraries(test_lib PRIVATE ${PROJECT_NAME} unity m)
+    target_link_libraries(test_calc PRIVATE ${PROJECT_NAME} unity m)
     target_compile_options(test_lib PRIVATE ${TEST_COMPILE_OPTIONS})
     target_compile_options(test_calc PRIVATE ${TEST_COMPILE_OPTIONS})
     add_test(NAME SuzukiSDLProtocolLibTests COMMAND test_lib --verbose)
@@ -78,9 +69,11 @@ if(BUILD_TESTING)
 endif()
 
 install(
-    TARGETS ${PROJECT_NAME}_static ${PROJECT_NAME}_shared
+    TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}Targets
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
 )
 
 install(DIRECTORY include/ DESTINATION include)

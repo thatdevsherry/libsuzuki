@@ -27,6 +27,11 @@ cmake --install build --prefix ./out
 ctest --test-dir build -V
 ```
 
+## CMake option feature flags
+
+- `BUILD_TESTING`
+- `BUILD_SHARED_LIBS`
+
 ## Use from other projects
 
 The project can be used in other `CMake` projects through `FetchContent`.

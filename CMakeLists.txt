@@ -17,10 +17,10 @@ set(PROJECT_COMPILE_OPTIONS
     -Wwrite-strings
     -Wcast-qual
     -Wcast-align
-    -Wstrict-prototypes
-    -Wmissing-prototypes
     -Wdouble-promotion
     -Wconversion
+    $<$<COMPILE_LANGUAGE:C>:-Wstrict-prototypes>
+    $<$<COMPILE_LANGUAGE:C>:-Wmissing-prototypes>
 )
 set(TEST_COMPILE_OPTIONS
     -Wall

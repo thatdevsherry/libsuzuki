@@ -11,6 +11,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define SDL_MESSAGE_MIN 3
 #define SDL_MESSAGE_MAX 255
 #define SDL_MESSAGE_DATA_LEN_MAX 252
@@ -256,5 +260,9 @@ bool sdl_calculate_radiator_fan_switch(uint8_t v);
  * NOTE: Formula is AI generated. Treat it as a lie if something looks off.
  */
 float_t sdl_calculate_engine_load(int8_t iat, float_t map, float_t baro);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

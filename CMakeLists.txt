@@ -41,8 +41,6 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-option(BUILD_SHARED_LIBS "Build shared library file" OFF)
-
 add_library(${PROJECT_NAME} src/suzuki_sdl.c)
 target_include_directories(${PROJECT_NAME} PUBLIC include PRIVATE src)
 target_compile_options(${PROJECT_NAME} PRIVATE ${PROJECT_COMPILE_OPTIONS})
